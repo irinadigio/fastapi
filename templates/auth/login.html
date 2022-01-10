@@ -5,10 +5,9 @@
 {% endblock %}
 
 {% block content %}
-  <br>
   <div class="container">
     <div class="row">
-      <h5 class="display-6 text-center text-primary">Login to JobBoard</h5>
+      <h5 class="display-5">Login to JobBoard</h5>
       <div class="text-danger font-weight-bold">
           {% for error in errors %}
             <li>{{error}}</li>
@@ -17,7 +16,7 @@
 
       <div class="text-success font-weight-bold">
         {% if msg %}
-        <div class="badge badge-light text-wrap font-weight-bold" style="font-size: large;">
+        <div class="badge bg-success text-wrap font-weight-bold" style="font-size: large;">
           {{msg}}
         </div>
         {% endif %}

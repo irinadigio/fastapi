@@ -1,9 +1,10 @@
+
 from typing import List
 from typing import Optional
-     
+
 from fastapi import Request
-     
-     
+
+
 class JobCreateForm:
     def __init__(self, request: Request):
         self.request: Request = request

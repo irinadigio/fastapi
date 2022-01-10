@@ -3,7 +3,7 @@ from fastapi import Request
 
 
 class UserCreateForm:
-    def __init__(self, request:Request):
+    def __init__(self,request:Request):
         self.request : Request = request
         self.errors : List = []
         self.username : Optional[str] = None
@@ -22,7 +22,7 @@ class UserCreateForm:
         if not self.email or not (self.email.__contains__("@")):
             self.errors.append("Valid email is required")
         if not self.password or not len(self.password) > 5:
-            self.errors.append("Password must be > 5 chars")
+            self.errors.append("Password should be > 5 chars")
         if not self.errors:
-            return True
+            return True 
         return False

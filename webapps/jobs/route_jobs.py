@@ -1,44 +1,44 @@
-from fastapi import APIRouter, Request, responses, status
-from fastapi.params import Depends
+from fastapi import APIRouter
+from fastapi import Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from sqlalchemy.orm.session import Session
+from fastapi import responses, status
+from fastapi.security.utils import get_authorization_scheme_param
 from db.repository.jobs import list_jobs
 from sqlalchemy.orm import Session
 from db.session import get_db
 from fastapi import Depends
 from db.repository.jobs import retreive_job, search_job
-from typing import Optional
 
-from schemas.jobs import JobCreate
-from fastapi.security.utils import get_authorization_scheme_param
- 
-from db.models.users import User
-from db.repository.jobs import create_new_job  
+from db.models.users import User  
 from apis.version1.route_login import get_current_user_from_token
 from webapps.jobs.forms import JobCreateForm
- 
+from schemas.jobs import JobCreate
+from db.repository.jobs import create_new_job
+
 
 templates = Jinja2Templates(directory="templates")
 router = APIRouter(include_in_schema=False)
 
+
 @router.get("/")
-def home(request:Request, db:Session = Depends(get_db), msg:str = None):
+def home(request:Request,db:Session = Depends(get_db),msg:str = None):
     jobs = list_jobs(db=db)
-    print(dir(request))
-    return templates.TemplateResponse("jobs/homepage.html", 
-    {"request":request, "jobs":jobs, "msg":msg})
+    return templates.TemplateResponse("jobs/homepage.html",{"request":request,"jobs":jobs,"msg":msg})
+
 
 @router.get("/detail/{id}")
 def job_detail(id:int, request:Request,db:Session = Depends(get_db)):
     job = retreive_job(id=id, db=db)
-    return templates.TemplateResponse("jobs/detail.html",{"request":request, "job":job})
+    return templates.TemplateResponse("jobs/detail.html", {"request":request,
+    "job":job})
 
-@router.get("/post-a-job/")  
+
+@router.get("/post-a-job/")
 def create_job(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse("jobs/create_job.html", {"request": request})
- 
- 
+
+
 @router.post("/post-a-job/")
 async def create_job(request: Request, db: Session = Depends(get_db)):
     form = JobCreateForm(request)
@@ -62,6 +62,7 @@ async def create_job(request: Request, db: Session = Depends(get_db)):
             )
             return templates.TemplateResponse("jobs/create_job.html", form.__dict__)
     return templates.TemplateResponse("jobs/create_job.html", form.__dict__)
+
 
 @router.get("/delete-job/")
 def show_jobs_to_delete(request: Request,db : Session = Depends(get_db)):

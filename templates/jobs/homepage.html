@@ -1,27 +1,28 @@
+
 {% extends "shared/base.html" %} 
 
 {% block title %} 
-    <title> New Jobboard </title>
+  <title>New Jobboard</title>
 {% endblock %} 
 
-{% block content %}
+{% block content %} 
 <div class="container">
-    <br>
-    <h1 class="display-6 text-center text-primary"> Find Jobs...</h1>
-    <br>
-<div class="row">
-    {% for job in jobs %}
-        <div class="col-lg-4 col-md-3 col-sm-10 mr-auto">
-            {% with obj=job %}
-            {% include "components/card.html" %}
-            {% endwith %}
+      <h1 class="display-4 text-danger">Find Jobs...</h1>
 
-            {% if loop.index %3 %}
-              </div>
-            {% else %} 
-              </div></div><br><div class="row">
-            {% endif %} 
+  <div class="row">
+    {% for job in jobs %}
+      <div class="col-lg-4 col-md-3 col-sm-10 mr-auto">
+        {% with obj=job %}
+          {% include "components/card.html" %}
+        {% endwith %}
+
+        {% if loop.index %3 %}
+          </div>
+        {% else %}
+          </div></div><br><div class="row">
+        {% endif %}
     {% endfor %}
-        </div>        
+  </div>
 </div>
+
 {% endblock %}
