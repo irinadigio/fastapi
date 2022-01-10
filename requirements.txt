@@ -1,0 +1,25 @@
+fastapi
+uvicorn
+
+sqlalchemy
+psycopg2
+
+python-dotenv
+
+pydantic[email]
+
+passlib[bcrypt]
+
+pytest
+requests
+pytest-cov==2.11.1
+
+python-jose
+
+#for form data
+python-multipart
+
+jinja2
+
+#for static files
+aiofiles
