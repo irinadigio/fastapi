@@ -8,13 +8,14 @@ from db.repository.jobs import list_jobs
 from sqlalchemy.orm import Session
 from db.session import get_db
 from fastapi import Depends
-from db.repository.jobs import retreive_job, search_job
+from db.repository.jobs import retreive_job, search_job 
 
 from db.models.users import User  
 from apis.version1.route_login import get_current_user_from_token
 from webapps.jobs.forms import JobCreateForm
 from schemas.jobs import JobCreate
 from db.repository.jobs import create_new_job
+from typing import Optional
 
 
 templates = Jinja2Templates(directory="templates")
