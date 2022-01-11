@@ -7,10 +7,10 @@ from schemas.jobs import JobCreate,ShowJob
 from db.repository.jobs import (create_new_job,
         retreive_job,list_jobs,
         update_job_by_id,
-        delete_job_by_id)
+        delete_job_by_id, search_job)
 from apis.version1.route_login import get_current_user_from_token
 from db.models.users import User
-from typing import List
+from typing import List, Optional
 
 router = APIRouter()
 
@@ -64,3 +64,12 @@ def delete_job(id:int,db:Session=Depends(get_db),current_user:User=Depends(get_c
         return {"detail":"Job Successfully deleted"}
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
     detail="You are not permitted!!")
+
+       
+@router.get("/autocomplete")
+def autocomplete(term: Optional[str] = None, db: Session = Depends(get_db)):
+    jobs = search_job(term, db=db)
+    job_titles = []
+    for job in jobs:
+        job_titles.append(job.title)
+    return job_titles
