@@ -1,1 +1,1 @@
-web : gunicorn main:app --log-file -
+web: gunicorn -w 3 -k uvicorn.workers.UvicornWorker slack:app
