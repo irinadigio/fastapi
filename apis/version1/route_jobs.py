@@ -39,18 +39,18 @@ def retreive_all_jobs(db:Session = Depends(get_db)):
 
 
 @router.put("/update/{id}")
-def update_job(id:int,job:JobCreate,db:Session=Depends(get_db),current_user: User=Depends(get_current_user_from_token)):
-    owner_id = current_user.id
+def update_job(id:int,  db:Session=Depends(get_db),current_user: User=Depends(get_current_user_from_token)):
     job_retrieved = retreive_job(id=id, db=db)
     if not job_retrieved:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
         detail=f"Job with id {id} does not exist")
     if job_retrieved.owner_id == current_user.id or current_user.is_superuser:
-        message = update_job_by_id(id=id, job=job, db=db, owner_id=owner_id)
-    else:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-        detail=f"You are not authorized to update.")
-    return {"detail":"Successfully updated data."}
+        update_job_by_id(id=id, db=db, owner_id=current_user.id)
+        return {"detail":"Successfully updated data."}
+    
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+    detail=f"You are not authorized to update.")
+    
 
 
 @router.delete("/delete/{id}")
