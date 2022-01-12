@@ -73,6 +73,14 @@ def show_jobs_to_delete(request: Request,db : Session = Depends(get_db)):
         "jobs":jobs
     })
 
+@router.put("/update-job/")
+def show_jobs_to_update(request: Request,db : Session = Depends(get_db)):
+    jobs = list_jobs(db=db)
+    return templates.TemplateResponse("jobs/show_jobs_to_update.html", {
+        "request":request,
+        "jobs":jobs
+    })
+
 @router.get("/search/")
 def search(
     request: Request, db: Session = Depends(get_db), query: Optional[str] = None):
